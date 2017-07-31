@@ -1,0 +1,29 @@
+{
+    "name": "fervo/controller-traits",
+    "description": "Some traits designed to make your life easier when writing controllers",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Magnus Nordlander,",
+            "email": "magnus@fervo.se"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Fervo\\ControllerTraits\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fervo\\ControllerTraits\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "twig/twig": "^1.0|^2.0",
+        "symfony/http-foundation": "^2.8|^3.0",
+        "symfony/form": "^3.3",
+        "symfony/http-kernel": "^3.3",
+        "symfony/routing": "^3.3"
+    }
+}
