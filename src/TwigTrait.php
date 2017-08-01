@@ -9,16 +9,22 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 trait TwigTrait
 {
-    /** @var \Twig_Environment */
-    private $twig;
+    /**
+     * @var \Twig_Environment
+     * @internal
+     */
+    private $_trait_twig;
 
+    /**
+     * @internal
+     */
     private function getTwig(): \Twig_Environment
     {
-        if (!$this->twig) {
+        if (!$this->_trait_twig) {
             throw new UninitializedTraitException("Did you forget to call setTwig?");
         }
 
-        return $this->twig;
+        return $this->_trait_twig;
     }
 
     /**
@@ -26,12 +32,12 @@ trait TwigTrait
      * @required
      * @internal
      */
-    public function setTwig(\Twig_Environment $twig): void
+    public function setTwig(\Twig_Environment $_trait_twig): void
     {
-        $this->twig = $twig;
+        $this->_trait_twig = $_trait_twig;
     }
 
-    protected function render(string $name, array $context = []): string
+    protected function renderView(string $name, array $context = []): string
     {
         return $this->twig->render($name, $context);
     }
@@ -45,13 +51,13 @@ trait TwigTrait
      *
      * @return Response A Response instance
      */
-    protected function renderResponse(string $view, array $parameters = [], ?Response $response = null): Response
+    protected function render(string $view, array $parameters = [], ?Response $response = null): Response
     {
         if (null === $response) {
             $response = new Response();
         }
 
-        $response->setContent($this->render($view, $parameters));
+        $response->setContent($this->renderView($view, $parameters));
 
         return $response;
     }

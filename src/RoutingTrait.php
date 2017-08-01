@@ -10,24 +10,30 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 trait RoutingTrait
 {
-    /** @var UrlGeneratorInterface */
-    private $urlGenerator;
+    /**
+     * @var UrlGeneratorInterface
+     * @internal
+     */
+    private $_trait_urlGenerator;
 
+    /**
+     * @internal
+     */
     private function getUrlGenerator(): UrlGeneratorInterface
     {
-        if (!$this->urlGenerator) {
+        if (!$this->_trait_urlGenerator) {
             throw new UninitializedTraitException();
         }
-        return $this->urlGenerator;
+        return $this->_trait_urlGenerator;
     }
 
     /**
      * @required
      * @internal
      */
-    public function setUrlGenerator(UrlGeneratorInterface $urlGenerator): void
+    public function setUrlGenerator(UrlGeneratorInterface $_trait_urlGenerator): void
     {
-        $this->urlGenerator = $urlGenerator;
+        $this->_trait_urlGenerator = $_trait_urlGenerator;
     }
 
 

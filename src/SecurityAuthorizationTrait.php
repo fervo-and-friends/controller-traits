@@ -3,9 +3,37 @@ declare(strict_types=1);
 
 namespace Fervo\ControllerTraits;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 trait SecurityAuthorizationTrait
 {
+    /**
+     * @var  AuthorizationCheckerInterface
+     * @internal
+     */
+    protected $_trait_authorizationChecker;
+
+    /**
+     * @internal
+     */
+    private function getAuthorizationChecker(): AuthorizationCheckerInterface
+    {
+        if (!$this->_trait_authorizationChecker) {
+            throw new UninitializedTraitException("Did you forget to initialize SecurityAuthorizationTrait?");
+        }
+
+        return $this->_trait_authorizationChecker;
+    }
+
+    /**
+     * @internal
+     * @required
+     */
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $_trait_authorizationChecker)
+    {
+        $this->_trait_authorizationChecker = $_trait_authorizationChecker;
+    }
+
     /**
      * Checks if the attributes are granted against the current authentication token and optionally supplied subject.
      *
@@ -18,10 +46,7 @@ trait SecurityAuthorizationTrait
      */
     protected function isGranted($attributes, $subject = null)
     {
-        if (!$this->container->has('security.authorization_checker')) {
-            throw new \LogicException('The SecurityBundle is not registered in your application.');
-        }
-        return $this->container->get('security.authorization_checker')->isGranted($attributes, $subject);
+        return $this->getAuthorizationChecker()->isGranted($attributes, $subject);
     }
     /**
      * Throws an exception unless the attributes are granted against the current authentication token and optionally
@@ -41,30 +66,6 @@ trait SecurityAuthorizationTrait
             $exception->setSubject($subject);
             throw $exception;
         }
-    }
-
-    /**
-     * Get a user from the Security Token Storage.
-     *
-     * @return mixed
-     *
-     * @throws \LogicException If SecurityBundle is not available
-     *
-     * @see TokenInterface::getUser()
-     */
-    protected function getUser()
-    {
-        if (!$this->container->has('security.token_storage')) {
-            throw new \LogicException('The SecurityBundle is not registered in your application.');
-        }
-        if (null === $token = $this->container->get('security.token_storage')->getToken()) {
-            return;
-        }
-        if (!is_object($user = $token->getUser())) {
-            // e.g. anonymous authentication
-            return;
-        }
-        return $user;
     }
 
     /**

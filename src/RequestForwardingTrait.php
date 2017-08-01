@@ -11,38 +11,50 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 trait RequestForwardingTrait
 {
-    /** @var RequestStack */
-    private $requestStack;
+    /**
+     * @var RequestStack
+     * @internal
+     */
+    private $_trait_requestStack;
 
-    /** @var HttpKernelInterface */
-    private $httpKernel;
+    /**
+     * @var HttpKernelInterface
+     * @internal
+     */
+    private $_trait_httpKernel;
 
+    /**
+     * @internal
+     */
     private function getRequestStack(): RequestStack
     {
-        if (!$this->requestStack) {
+        if (!$this->_trait_requestStack) {
             throw new UninitializedTraitException("Did you forget to initialize the trait");
         }
 
-        return $this->requestStack;
+        return $this->_trait_requestStack;
     }
 
+    /**
+     * @internal
+     */
     private function getHttpKernel(): HttpKernelInterface
     {
-        if (!$this->httpKernel) {
+        if (!$this->_trait_httpKernel) {
             throw new UninitializedTraitException("Did you forget to initialize the trait");
         }
 
-        return $this->httpKernel;
+        return $this->_trait_httpKernel;
     }
 
     /**
      * @required
      * @internal
      */
-    public function initializeRequestForwardingTrait(RequestStack $requestStack, HttpKernelInterface $httpKernel): void
+    public function initializeRequestForwardingTrait(RequestStack $_trait_requestStack, HttpKernelInterface $_trait_httpKernel): void
     {
-        $this->requestStack = $requestStack;
-        $this->httpKernel = $httpKernel;
+        $this->_trait_requestStack = $_trait_requestStack;
+        $this->_trait_httpKernel = $_trait_httpKernel;
     }
 
 

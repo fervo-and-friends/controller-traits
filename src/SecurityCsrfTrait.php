@@ -4,8 +4,38 @@ declare(strict_types=1);
 namespace Fervo\ControllerTraits;
 
 
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+
 trait SecurityCsrfTrait
 {
+    /**
+     * @var CsrfTokenManagerInterface
+     * @internal
+     */
+    protected $_trait_csrfTokenManager;
+
+    /**
+     * @internal
+     */
+    private function getCsrfTokenManager(): CsrfTokenManagerInterface
+    {
+        if (!$this->_trait_csrfTokenManager) {
+            throw new UninitializedTraitException("Did you forget to call setCsrfTokenManager?");
+        }
+
+        return $this->_trait_csrfTokenManager;
+    }
+
+    /**
+     * @required
+     * @internal
+     */
+    public function setCsrfTokenManager(CsrfTokenManagerInterface $_trait_csrfTokenManager)
+    {
+        $this->_trait_csrfTokenManager = $_trait_csrfTokenManager;
+        $this->_trait_csrfTokenManager = $_trait_csrfTokenManager;
+    }
+
     /**
      * Checks the validity of a CSRF token.
      *
@@ -16,9 +46,6 @@ trait SecurityCsrfTrait
      */
     protected function isCsrfTokenValid($id, $token)
     {
-        if (!$this->container->has('security.csrf.token_manager')) {
-            throw new \LogicException('CSRF protection is not enabled in your application.');
-        }
-        return $this->container->get('security.csrf.token_manager')->isTokenValid(new CsrfToken($id, $token));
+        return $this->getCsrfTokenManager()->isTokenValid(new CsrfToken($id, $token));
     }
 }

@@ -11,16 +11,22 @@ use Symfony\Component\Form\FormInterface;
 
 trait FormTrait
 {
-    /** @var FormFactory */
-    private $formFactory;
+    /**
+     * @var FormFactory
+     * @internal
+     */
+    private $_trait_formFactory;
 
+    /**
+     * @internal
+     */
     private function getFormFactory(): FormFactory
     {
-        if (!$this->formFactory) {
+        if (!$this->_trait_formFactory) {
             throw new UninitializedTraitException("Did you forget to call setFormFactory?");
         }
 
-        return $this->formFactory;
+        return $this->_trait_formFactory;
     }
 
     /**
@@ -28,9 +34,9 @@ trait FormTrait
      * @required
      * @internal
      */
-    public function setFormFactory(FormFactory $formFactory): void
+    public function setFormFactory(FormFactory $_trait_formFactory): void
     {
-        $this->formFactory = $formFactory;
+        $this->_trait_formFactory = $_trait_formFactory;
     }
 
 

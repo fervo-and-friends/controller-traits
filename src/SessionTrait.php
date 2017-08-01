@@ -4,8 +4,37 @@ declare(strict_types=1);
 namespace Fervo\ControllerTraits;
 
 
-class SessionTrait
+use Symfony\Component\HttpFoundation\Session\Session;
+
+trait SessionTrait
 {
+    /**
+     * @var Session
+     * @internal
+     */
+    protected $_trait_session;
+
+    /**
+     * @internal
+     */
+    private function getSession(): Session
+    {
+        if (!isset($this->_trait_session)) {
+            throw new UninitializedTraitException("Did you forget to call setSession?");
+        }
+
+        return $this->_trait_session;
+    }
+
+    /**
+     * @required
+     * @internal
+     */
+    public function setSession(Session $_trait_session)
+    {
+        $this->_trait_session = $_trait_session;
+    }
+
     /**
      * Adds a flash message to the current session for type.
      *
@@ -16,9 +45,6 @@ class SessionTrait
      */
     protected function addFlash($type, $message)
     {
-        if (!$this->container->has('session')) {
-            throw new \LogicException('You can not use the addFlash method if sessions are disabled.');
-        }
-        $this->container->get('session')->getFlashBag()->add($type, $message);
+        $this->getSession()->getFlashBag()->add($type, $message);
     }
 }
