@@ -39,7 +39,7 @@ trait TwigTrait
 
     protected function renderView(string $name, array $context = []): string
     {
-        return $this->twig->render($name, $context);
+        return $this->getTwig()->render($name, $context);
     }
 
     /**
