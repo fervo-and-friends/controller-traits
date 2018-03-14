@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Fervo\ControllerTraits;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 trait SecurityAuthenticationTrait
 {
