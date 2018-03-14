@@ -34,6 +34,17 @@ trait SecurityAuthenticationTrait
         $this->_trait_tokenStorage = $_trait_tokenStorage;
     }
 
+    
+    /**
+     * Get the current token from the Security Token Storage
+     *
+     * @throws \LogicException If SecurityBundle is not available
+     */
+    protected function getToken(): ?TokenInterface
+    {
+        return $this->getTokenStorage()->getToken();
+    }
+    
     /**
      * Get a user from the Security Token Storage.
      *
