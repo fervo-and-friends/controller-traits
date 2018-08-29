@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Fervo\ControllerTraits;
 
 
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 trait SessionTrait
 {
@@ -17,7 +17,7 @@ trait SessionTrait
     /**
      * @internal
      */
-    private function getSession(): Session
+    private function getSession(): SessionInterface
     {
         if (!isset($this->_trait_session)) {
             throw new UninitializedTraitException("Did you forget to call setSession?");
@@ -30,7 +30,7 @@ trait SessionTrait
      * @required
      * @internal
      */
-    public function setSession(Session $_trait_session)
+    public function setSession(SessionInterface $_trait_session)
     {
         $this->_trait_session = $_trait_session;
     }

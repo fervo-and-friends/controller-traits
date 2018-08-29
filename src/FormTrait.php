@@ -6,7 +6,7 @@ namespace Fervo\ControllerTraits;
 use Fervo\ControllerTraits\Exception\UninitializedTraitException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
 trait FormTrait
@@ -20,7 +20,7 @@ trait FormTrait
     /**
      * @internal
      */
-    private function getFormFactory(): FormFactory
+    private function getFormFactory(): FormFactoryInterface
     {
         if (!$this->_trait_formFactory) {
             throw new UninitializedTraitException("Did you forget to call setFormFactory?");
@@ -34,7 +34,7 @@ trait FormTrait
      * @required
      * @internal
      */
-    public function setFormFactory(FormFactory $_trait_formFactory): void
+    public function setFormFactory(FormFactoryInterface $_trait_formFactory): void
     {
         $this->_trait_formFactory = $_trait_formFactory;
     }
